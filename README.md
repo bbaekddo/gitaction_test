@@ -69,6 +69,7 @@ Event - Runner - Job - Step
 
 #### 1) uses
 - 현재 단계에서 actions/checkout@/v2를 실행
+- **다른 사람이 만든 Workflow를 실행**
 - 내 레포지토리를 runner에서 체크아웃해서 스크립트 또는 빌드 테스트 도구를 실행
 
 #### 2) name
@@ -77,3 +78,32 @@ Event - Runner - Job - Step
 #### 3) run
 - runner에서 명령어를 실행하도록 지시
 - 환경 변수 설정 가능
+
+<br>
+
+## 기타
+### 1. 민감 정보
+- 비밀번호와 같은 민감 정보를 이용해 테스트를 하거나 배포할 경우
+- Github의 secret으로 저장하여 환경 변수로 사용 가능
+
+![](./img/secret.png)
+
+프로젝트 설정에서 시크릿 설정을 해준 뒤, 아래와 같이 테스트 코드를 작성하면 사용 가능
+
+```yaml
+secret-example:
+  
+  runs-on: ubuntu-20.04
+
+  steps:
+    - name: Secret 설정
+      env:
+        # 환경변수에 password 등록
+        password: ${{ secrets.password }}
+      run:
+        echo "password is $password"
+```
+
+테스트 결과를 확인해보면 패스워드를 직접 보여주진 않는 것(보안)을 확인
+
+![](./img/secret2.png)
